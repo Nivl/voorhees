@@ -1,0 +1,78 @@
+run:
+  deadline: 10m
+
+issues:
+  max-same-issues: 0
+  max-per-linter: 0
+  exclude-use-default: false
+
+  exclude-rules:
+    - linters:
+        - govet
+      text: 'shadow: declaration of "err"'
+
+    # we remove a few annoying things from our tests, because they
+    # don't provide much beside complexity
+    - path: _test\.go
+      linters:
+        - errcheck
+        - gosec
+        - goerr113
+        - maligned
+
+linters:
+  enable:
+    - govet
+    - errcheck
+    - staticcheck
+    - unused
+    - gosimple
+    - structcheck
+    - varcheck
+    - ineffassign
+    - deadcode
+    - typecheck
+
+    - bodyclose
+    - golint
+    - stylecheck
+    - gosec
+    - interfacer
+    - unconvert
+    - asciicheck
+    - goimports
+    - maligned
+    - misspell
+    - unparam
+    - dogsled
+    - prealloc
+    - scopelint
+    - gocritic
+    - gochecknoinits
+    - whitespace
+    - goprintffuncname
+    - goerr113
+    - exhaustive
+    - nolintlint
+    - noctx
+    - exportloopref
+    - gofumpt # replaces gofmt
+    - tparallel
+    - errorlint
+
+linters-settings:
+  govet:
+    check-shadowing: true
+
+  gocritic:
+    enabled-tags:
+      - performance
+      - diagnostic
+      - style
+      - experimental
+      - opinionated
+
+    disabled-checks:
+      - sloppyReassign
+      - emptyFallthrough
+      - octalLiteral

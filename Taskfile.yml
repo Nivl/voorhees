@@ -1,0 +1,26 @@
+version: "2"
+
+tasks:
+  build:
+    cmds:
+      - CGO_ENABLED=0 go build -i -v -o ./bin/voorhees github.com/Nivl/voorhees
+
+  install:
+    cmds:
+      - CGO_ENABLED=0 go install github.com/Nivl/voorhees
+
+  test:
+    cmds:
+      # -race requires cgo because of the -race
+      - go test -race -mod=readonly ./...
+
+  deps-upgrade:
+    cmds:
+      - go get -t -u ./...
+      - go mod tidy
+
+  dev:
+    deps: [build]
+    sources:
+      - ./**/*.go
+      - go.mod
