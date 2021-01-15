@@ -42,6 +42,11 @@ func run(args []string, out io.Writer) (exitStatus int) {
 		return ExitFailure
 	}
 
+	// Doesn't make sense to treat a dep unmaintained after a couple of weeks
+	if flags.MaxWeeks < 4 {
+		fmt.Fprintln(out, "the limit cannot be below 4")
+		return ExitFailure
+	}
 	week := 7 * 24 * time.Hour
 	expirationDate := time.Now().Add(-time.Duration(flags.MaxWeeks) * week)
 
@@ -80,7 +85,8 @@ func parseModules(f *Flags, expirationDate time.Time, modules []*modutil.Module)
 			continue
 		}
 
-		// Report if the package hasn't been updated in 6 months
+		// Report if the package hasn't been updated since the last
+		// X weeks
 		if m.Time != nil && m.Time.Before(expirationDate) {
 			if !m.HasUpdate() || m.Update.Time.Before(expirationDate) {
 				res.Unmaintained = append(res.Unmaintained, m)
