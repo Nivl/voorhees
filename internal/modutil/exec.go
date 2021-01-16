@@ -11,7 +11,7 @@ import (
 // exe runs a program and returns stdout, stderr, and any
 // error that might have occurred
 func exe(name string, arg ...string) (stdout, stderr string, err error) {
-	cmd := exec.Command(name, arg...)
+	cmd := exec.Command(name, arg...) //nolint: gosec,gocritic // it's fine, this is not a user input
 
 	// we pipe stderr to get the error message if something goes wrong
 	stderrReader, err := cmd.StderrPipe()
