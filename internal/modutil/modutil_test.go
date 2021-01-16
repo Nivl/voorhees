@@ -19,7 +19,7 @@ func TestParseJSON(t *testing.T) {
 		require.NoError(t, err, "ioutil.ReadFile() was expected to succeed")
 		modules, err := modutil.ParseJSON(string(content))
 		require.NoError(t, err, "ParseJSON() was expected to succeed")
-		require.Len(t, modules, 96)
+		require.Len(t, modules, 11)
 	})
 
 	t.Run("invalid json", func(t *testing.T) {

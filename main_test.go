@@ -159,7 +159,7 @@ func TestParseModules(t *testing.T) {
 			expirationDate := time.Now().Add(-time.Duration(tc.flags.MaxWeeks) * week)
 
 			res := parseModules(&tc.flags, expirationDate, tc.modules)
-			assert.Equal(t, tc.expected, *res)
+			assert.Equal(t, tc.expected.Unmaintained, res.Unmaintained)
 		})
 	}
 }
