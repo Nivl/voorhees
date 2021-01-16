@@ -66,7 +66,7 @@ func run(args []string, out io.Writer) (exitStatus int) {
 }
 
 func parseModules(f *Flags, expirationDate time.Time, modules []*modutil.Module) *Results {
-	res := &Results{}
+	res := NewResults()
 	for _, m := range modules {
 		// skip ignored packages
 		isIgnored := false
