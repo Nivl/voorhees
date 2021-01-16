@@ -2,7 +2,7 @@
 
 [![Go Report Card](https://goreportcard.com/badge/github.com/nivl/voorhees)](https://goreportcard.com/report/github.com/nivl/voorhees)
 
-Voorhees is a program that parses the depency tree to find dependency that
+Voorhees is a program that parses the depency tree to find dependencies that
 might no longer be maintained.
 
 ## Install

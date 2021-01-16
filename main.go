@@ -38,7 +38,7 @@ func main() {
 func run(args []string, out io.Writer) (exitStatus int) {
 	flags, err := parseFlags(args)
 	if err != nil {
-		fmt.Fprintln(out, fmt.Sprintf("could not parse the flags: %s", err.Error()))
+		fmt.Fprintf(out, "could not parse the flags: %s\n", err.Error())
 		return ExitFailure
 	}
 
@@ -52,7 +52,7 @@ func run(args []string, out io.Writer) (exitStatus int) {
 
 	modules, err := modutil.ParseCwd()
 	if err != nil {
-		fmt.Fprintln(out, fmt.Sprintf("could not parse the go.mod file: %s", err.Error()))
+		fmt.Fprintf(out, "could not parse the go.mod file: %s\n", err.Error())
 		return ExitFailure
 	}
 

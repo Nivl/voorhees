@@ -1,6 +1,0 @@
-+--------------+-------------+----------+
-|    MODULE    | REPLACED BY | INDIRECT |
-+--------------+-------------+----------+
-| replace/pkg  | valid/pkg   |  false   |
-| indirect/pkg | valid/pkg   |   true   |
-+--------------+-------------+----------+
