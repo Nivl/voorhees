@@ -1,4 +1,3 @@
-// Package modutil contains various struct and functions to work on mod files
 package modutil_test
 
 import (
