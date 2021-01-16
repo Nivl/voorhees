@@ -3,10 +3,9 @@ package modutil
 
 import (
 	"encoding/json"
+	"fmt"
 	"strings"
 	"time"
-
-	"github.com/pkg/errors"
 )
 
 // Module represents a single Go module
@@ -64,7 +63,7 @@ func ParseJSON(golistOutput string) ([]*Module, error) {
 	modules := []*Module{}
 	err := json.Unmarshal([]byte(golistOutput), &modules)
 	if err != nil {
-		return nil, errors.Wrap(err, "could not parse the JSON output of go list")
+		return nil, fmt.Errorf("could not parse the JSON output of go list: %w", err)
 	}
 	return modules, nil
 }

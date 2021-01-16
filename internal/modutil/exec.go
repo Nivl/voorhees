@@ -1,11 +1,11 @@
 package modutil
 
 import (
+	"errors"
+	"fmt"
 	"io/ioutil"
 	"os/exec"
 	"strings"
-
-	"github.com/pkg/errors"
 )
 
 // exe runs a program and returns stdout, stderr, and any
@@ -16,28 +16,28 @@ func exe(name string, arg ...string) (stdout, stderr string, err error) {
 	// we pipe stderr to get the error message if something goes wrong
 	stderrReader, err := cmd.StderrPipe()
 	if err != nil {
-		return "", "", errors.Wrap(err, "could not pipe stderr")
+		return "", "", fmt.Errorf("could not pipe stderr: %w", err)
 	}
 	// we pipe stdout to get the output of the script
 	stdoutReader, err := cmd.StdoutPipe()
 	if err != nil {
-		return "", "", errors.Wrap(err, "could not pipe stdout")
+		return "", "", fmt.Errorf("could not pipe stdout: %w", err)
 	}
 
 	// We start the command
 	if err = cmd.Start(); err != nil {
-		return "", "", errors.Wrap(err, "could not run the command")
+		return "", "", fmt.Errorf("could not run the command: %w", err)
 	}
 
 	// we read all stderr to get the error message (if any)
 	stderrByte, err := ioutil.ReadAll(stderrReader)
 	if err != nil {
-		return "", "", errors.Wrap(err, "could not read stderr")
+		return "", "", fmt.Errorf("could not read stderr: %w", err)
 	}
 	// we read all stdout to get the output of the script (if any)
 	stdoutByte, err := ioutil.ReadAll(stdoutReader)
 	if err != nil {
-		return "", "", errors.Wrap(err, "could not read stdout")
+		return "", "", fmt.Errorf("could not read stdout: %w", err)
 	}
 
 	stdout = strings.TrimSuffix(string(stdoutByte), "\n")
