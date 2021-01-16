@@ -1,6 +1,8 @@
 package main
 
 import (
+	"bufio"
+	"bytes"
 	"errors"
 	"testing"
 	"time"
@@ -158,6 +160,52 @@ func TestParseModules(t *testing.T) {
 
 			res := parseModules(&tc.flags, expirationDate, tc.modules)
 			assert.Equal(t, tc.expected, *res)
+		})
+	}
+}
+
+func TestRun(t *testing.T) {
+	t.Parallel()
+
+	testCases := []struct {
+		description  string
+		args         []string
+		expectedBuf  string
+		expectedCode int
+	}{
+		{
+			description:  "invalid flags",
+			args:         []string{"bin", "--nope"},
+			expectedCode: ExitFailure,
+			expectedBuf:  "could not parse the flags: unknown flag: --nope\n",
+		},
+		{
+			description:  "limit too low",
+			args:         []string{"bin", "-l", "2"},
+			expectedCode: ExitFailure,
+			expectedBuf:  "the limit cannot be below 4\n",
+		},
+		{
+			description: "happy path",
+			// We're cheating a bit by ignoring all the packages
+			args:         []string{"bin", "-i", "github.com"},
+			expectedCode: ExitSuccess,
+		},
+	}
+
+	for _, tc := range testCases {
+		tc := tc
+		t.Run(tc.description, func(t *testing.T) {
+			t.Parallel()
+
+			buf := bytes.Buffer{}
+			w := bufio.NewWriter(&buf)
+			exitStatus := run(tc.args, w)
+			require.NoError(t, w.Flush(), "Flush() should have work")
+			assert.Equal(t, tc.expectedCode, exitStatus)
+			if tc.expectedBuf != "" {
+				assert.Equal(t, tc.expectedBuf, buf.String())
+			}
 		})
 	}
 }
