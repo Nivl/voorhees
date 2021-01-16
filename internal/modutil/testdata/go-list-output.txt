@@ -1,0 +1,117 @@
+{
+	"Path": "github.com/Nivl/voorhees",
+	"Main": true,
+	"Dir": "/home/repos/voorhees",
+	"GoMod": "/home/repos/voorhees/go.mod",
+	"GoVersion": "1.15"
+}
+{
+	"Path": "github.com/davecgh/go-spew",
+	"Version": "v1.1.0",
+	"Time": "2016-10-29T20:57:26Z",
+	"Update": {
+		"Path": "github.com/davecgh/go-spew",
+		"Version": "v1.1.1",
+		"Time": "2018-02-21T23:26:28Z"
+	},
+	"Indirect": true,
+	"Dir": "/home/.go/pkg/mod/github.com/davecgh/go-spew@v1.1.0",
+	"GoMod": "/home/.go/pkg/mod/cache/download/github.com/davecgh/go-spew/@v/v1.1.0.mod"
+}
+{
+	"Path": "github.com/mattn/go-runewidth",
+	"Version": "v0.0.7",
+	"Time": "2019-12-03T13:04:45Z",
+	"Update": {
+		"Path": "github.com/mattn/go-runewidth",
+		"Version": "v0.0.10",
+		"Time": "2021-01-11T15:04:47Z"
+	},
+	"Indirect": true,
+	"Dir": "/home/.go/pkg/mod/github.com/mattn/go-runewidth@v0.0.7",
+	"GoMod": "/home/.go/pkg/mod/cache/download/github.com/mattn/go-runewidth/@v/v0.0.7.mod",
+	"GoVersion": "1.9"
+}
+{
+	"Path": "github.com/olekukonko/tablewriter",
+	"Version": "v0.0.4",
+	"Time": "2019-12-05T07:26:27Z",
+	"Dir": "/home/.go/pkg/mod/github.com/olekukonko/tablewriter@v0.0.4",
+	"GoMod": "/home/.go/pkg/mod/cache/download/github.com/olekukonko/tablewriter/@v/v0.0.4.mod",
+	"GoVersion": "1.12"
+}
+{
+	"Path": "github.com/pkg/errors",
+	"Version": "v0.8.1",
+	"Time": "2019-01-03T06:52:24Z",
+	"Update": {
+		"Path": "github.com/pkg/errors",
+		"Version": "v0.9.1",
+		"Time": "2020-01-14T19:47:44Z"
+	},
+	"Dir": "/home/.go/pkg/mod/github.com/pkg/errors@v0.8.1",
+	"GoMod": "/home/.go/pkg/mod/cache/download/github.com/pkg/errors/@v/v0.8.1.mod"
+}
+{
+	"Path": "github.com/pmezard/go-difflib",
+	"Version": "v1.0.0",
+	"Time": "2016-01-10T10:55:54Z",
+	"Indirect": true,
+	"Dir": "/home/.go/pkg/mod/github.com/pmezard/go-difflib@v1.0.0",
+	"GoMod": "/home/.go/pkg/mod/cache/download/github.com/pmezard/go-difflib/@v/v1.0.0.mod"
+}
+{
+	"Path": "github.com/spf13/pflag",
+	"Version": "v1.0.5",
+	"Time": "2019-09-18T19:59:20Z",
+	"Dir": "/home/.go/pkg/mod/github.com/spf13/pflag@v1.0.5",
+	"GoMod": "/home/.go/pkg/mod/cache/download/github.com/spf13/pflag/@v/v1.0.5.mod",
+	"GoVersion": "1.12"
+}
+{
+	"Path": "github.com/stretchr/objx",
+	"Version": "v0.1.0",
+	"Time": "2018-01-06T01:13:53Z",
+	"Update": {
+		"Path": "github.com/stretchr/objx",
+		"Version": "v0.3.0",
+		"Time": "2019-04-15T11:18:23Z"
+	},
+	"Indirect": true,
+	"Dir": "/home/.go/pkg/mod/github.com/stretchr/objx@v0.1.0",
+	"GoMod": "/home/.go/pkg/mod/cache/download/github.com/stretchr/objx/@v/v0.1.0.mod"
+}
+{
+	"Path": "github.com/stretchr/testify",
+	"Version": "v1.7.0",
+	"Time": "2021-01-13T09:54:11Z",
+	"Dir": "/home/.go/pkg/mod/github.com/stretchr/testify@v1.7.0",
+	"GoMod": "/home/.go/pkg/mod/cache/download/github.com/stretchr/testify/@v/v1.7.0.mod",
+	"GoVersion": "1.13"
+}
+{
+	"Path": "gopkg.in/check.v1",
+	"Version": "v0.0.0-20161208181325-20d25e280405",
+	"Time": "2016-12-08T18:13:25Z",
+	"Update": {
+		"Path": "gopkg.in/check.v1",
+		"Version": "v1.0.0-20201130134442-10cb98267c6c",
+		"Time": "2020-11-30T13:44:42Z"
+	},
+	"Indirect": true,
+	"Dir": "/home/.go/pkg/mod/gopkg.in/check.v1@v0.0.0-20161208181325-20d25e280405",
+	"GoMod": "/home/.go/pkg/mod/cache/download/gopkg.in/check.v1/@v/v0.0.0-20161208181325-20d25e280405.mod"
+}
+{
+	"Path": "gopkg.in/yaml.v3",
+	"Version": "v3.0.0-20200313102051-9f266ea9e77c",
+	"Time": "2020-03-13T10:20:51Z",
+	"Update": {
+		"Path": "gopkg.in/yaml.v3",
+		"Version": "v3.0.0-20210107192922-496545a6307b",
+		"Time": "2021-01-07T19:29:22Z"
+	},
+	"Indirect": true,
+	"Dir": "/home/.go/pkg/mod/gopkg.in/yaml.v3@v3.0.0-20200313102051-9f266ea9e77c",
+	"GoMod": "/home/.go/pkg/mod/cache/download/gopkg.in/yaml.v3/@v/v3.0.0-20200313102051-9f266ea9e77c.mod"
+}
