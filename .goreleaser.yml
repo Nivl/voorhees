@@ -28,4 +28,4 @@ changelog:
 
 dockers:
   - image_templates:
-      - Nivl/voorhees
+      - nivl/voorhees
