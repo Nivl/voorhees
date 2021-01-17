@@ -1,4 +1,4 @@
-name: Main
+name: Security
 on: [push]
 jobs:
   go-vulnerabilities-scan:
