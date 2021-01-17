@@ -1,11 +1,26 @@
 package main
 
 import (
+	"fmt"
 	"os"
 
 	"github.com/Nivl/voorhees/internal/voorhees"
 )
 
+// Version contains the current version of the app
+var Version = "DEV"
+
 func main() {
-	os.Exit(voorhees.Run(os.Args, os.Stdin, os.Stderr))
+	flags, err := voorhees.ParseFlags(os.Args)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "could not parse the flags: %s\n", err.Error())
+		os.Exit(voorhees.ExitFailure)
+	}
+
+	if flags.PrintVersion {
+		fmt.Fprintln(os.Stdout, Version)
+		os.Exit(voorhees.ExitSuccess)
+	}
+
+	os.Exit(voorhees.Run(flags, os.Stdin, os.Stderr))
 }

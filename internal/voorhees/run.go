@@ -9,16 +9,9 @@ import (
 )
 
 // Run runs Voorhees
-// - args is expected to contain os.Args
 // - in is expected to contain the output of go list (stdin most likely)
 // - out is expected to be were errors will be printed (stderr)
-func Run(args []string, in io.Reader, out io.Writer) (exitStatus int) {
-	flags, err := parseFlags(args)
-	if err != nil {
-		fmt.Fprintf(out, "could not parse the flags: %s\n", err.Error())
-		return ExitFailure
-	}
-
+func Run(flags *Flags, in io.Reader, out io.Writer) (exitStatus int) {
 	// Doesn't make sense to treat a dep unmaintained after a couple of weeks
 	if flags.MaxWeeks < 4 {
 		fmt.Fprintln(out, "the limit cannot be below 4")
