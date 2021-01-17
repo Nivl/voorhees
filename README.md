@@ -42,13 +42,11 @@ go get -u github.com/Nivl/voorhees
 
 ```
 go list -json -m -u all | voorhees [flags]
-```
 
-| Flag         | Description                                                               |
-| ------------ | ------------------------------------------------------------------------- |
-| --limit -l   | number of weeks after which a dep is considered unmaintained (default 26) |
-| --ignore, -i | coma separated list of packages to ignore                                 |
-
-```
-
+| Flag          | Description                                                               |
+| ------------- | ------------------------------------------------------------------------- |
+| --limit -l    | Number of weeks after which a dep is considered unmaintained (default 26) |
+| --ignore, -i  | Coma separated list of packages to ignore                                 |
+| --version, -v | Display the version number                                                |
+| --help, -h    | Display the help options                                                  |
 ```
