@@ -1,0 +1,13 @@
+name: Main
+on: [push]
+jobs:
+  go-vulnerabilities-scan:
+    name: "Golang Vulnerabilities Scan"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-go@v2
+      - name: Generate go.list
+        run: go list -json -m all > go.list
+      - name: Run Nancy
+        uses: sonatype-nexus-community/nancy-github-action@main

@@ -1,16 +1,6 @@
 name: Main
 on: [push]
 jobs:
-  go-vulnerabilities-scan:
-    name: "Golang Vulnerabilities Scan"
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-go@v2
-      - name: Generate go.list
-        run: go list -json -m all > go.list
-      - name: Run Nancy
-        uses: sonatype-nexus-community/nancy-github-action@main
   lint:
     name: Lint
     runs-on: ubuntu-latest
@@ -56,3 +46,20 @@ jobs:
 
       - name: Test
         run: go test -race ./...
+
+  release-safe:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Set up Go
+        uses: actions/setup-go@v2=
+      - name: Run GoReleaser
+        uses: goreleaser/goreleaser-action@v2
+        with:
+          version: latest
+          args: --snapshot --skip-publish --rm-dist
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
