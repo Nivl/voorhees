@@ -8,7 +8,7 @@ import (
 )
 
 // Version contains the current version of the app
-var Version = "DEV"
+var version = "DEV"
 
 func main() {
 	flags, err := voorhees.ParseFlags(os.Args)
@@ -18,7 +18,7 @@ func main() {
 	}
 
 	if flags.PrintVersion {
-		fmt.Fprintln(os.Stdout, Version)
+		fmt.Fprintln(os.Stdout, version)
 		os.Exit(voorhees.ExitSuccess)
 	}
 
