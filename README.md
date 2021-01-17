@@ -16,7 +16,7 @@ might no longer be maintained.
 
 ## Installation
 
-### Macos
+### macOS
 
 ```
 brew install Nivl/homebrew-tap/voorhees
