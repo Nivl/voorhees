@@ -28,4 +28,7 @@ changelog:
 
 dockers:
   - image_templates:
-      - nivl/voorhees
+      - "ghcr.io/nivl/voorhees:{{ .Tag }}"
+      - "ghcr.io/nivl/voorhees:v{{ .Major }}"
+      - "ghcr.io/nivl/voorhees:v{{ .Major }}.{{ .Minor }}"
+      - "ghcr.io/nivl/voorhees:latest"
