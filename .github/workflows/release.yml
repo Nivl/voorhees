@@ -17,6 +17,12 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v2
 
+      - name: Docker Login
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
+        run: |
+          echo "${GITHUB_TOKEN}" | docker login ghcr.io --username $GITHUB_ACTOR --password-stdin
+
       - name: Run GoReleaser
         uses: goreleaser/goreleaser-action@v2
         with:
