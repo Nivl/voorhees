@@ -1,18 +1,17 @@
-package main
+package voorhees
 
 import (
 	"fmt"
 	"io"
 	"time"
 
-	"github.com/Nivl/voorhees/internal/modutil"
 	"github.com/olekukonko/tablewriter"
 )
 
 // Results contains all the modules that need to be reported
 type Results struct {
 	baseTime     time.Time
-	Unmaintained []*modutil.Module
+	Unmaintained []*Module
 }
 
 // NewResults returns a Results object ready to be filled

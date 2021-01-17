@@ -9,7 +9,7 @@ might no longer be maintained.
 
 ## usage
 
-`voorhees [flags]`
+`go list -json -m -u all | voorhees [flags]`
 
 | Flag         | Description                                                               |
 | ------------ | ------------------------------------------------------------------------- |
@@ -17,7 +17,7 @@ might no longer be maintained.
 | --ignore, -i | coma separated list of packages to ignore                                 |
 
 ```
-❯ bin/voorhees .
+❯ go list -json -m -u all | voorhees
 +-----------------------------------+----------------------------+
 |              MODULE               |        LAST UPDATE         |
 +-----------------------------------+----------------------------+
