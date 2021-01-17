@@ -1,4 +1,4 @@
-package main
+package voorhees
 
 import (
 	"bufio"
@@ -8,7 +8,6 @@ import (
 	"testing"
 	"time"
 
-	"github.com/Nivl/voorhees/internal/modutil"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
@@ -27,14 +26,14 @@ func TestHasModules(t *testing.T) {
 		{
 			description: "no modules",
 			res: Results{
-				Unmaintained: []*modutil.Module{},
+				Unmaintained: []*Module{},
 			},
 			expected: !hasModule,
 		},
 		{
 			description: "1 unmaintained modules",
 			res: Results{
-				Unmaintained: []*modutil.Module{
+				Unmaintained: []*Module{
 					{},
 				},
 			},
@@ -60,9 +59,9 @@ func TestPrint(t *testing.T) {
 
 	OneYearAgo := now.Add(-366 * 24 * time.Hour)
 	TwoYearsAgo := now.Add(-2 * 366 * 24 * time.Hour)
-	updatedToModule := &modutil.Module{Path: "updated/pkg", Version: "1.0.0", Time: &OneYearAgo}
-	updatedModule := &modutil.Module{Path: "updated/pkg", Version: "0.0.1", Time: &TwoYearsAgo, Update: updatedToModule}
-	oldModule := &modutil.Module{Path: "old/pkg", Version: "0.0.1", Time: &OneYearAgo}
+	updatedToModule := &Module{Path: "updated/pkg", Version: "1.0.0", Time: &OneYearAgo}
+	updatedModule := &Module{Path: "updated/pkg", Version: "0.0.1", Time: &TwoYearsAgo, Update: updatedToModule}
+	oldModule := &Module{Path: "old/pkg", Version: "0.0.1", Time: &OneYearAgo}
 
 	testCases := []struct {
 		description        string
@@ -81,7 +80,7 @@ func TestPrint(t *testing.T) {
 			expectedOutputFile: "test-print-unmaintained",
 			res: Results{
 				baseTime: now,
-				Unmaintained: []*modutil.Module{
+				Unmaintained: []*Module{
 					updatedModule,
 					oldModule,
 				},

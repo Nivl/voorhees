@@ -1,13 +1,14 @@
-package main
+package voorhees
 
 import (
 	"bufio"
 	"bytes"
 	"errors"
+	"os"
+	"path/filepath"
 	"testing"
 	"time"
 
-	"github.com/Nivl/voorhees/internal/modutil"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
@@ -82,16 +83,16 @@ func TestParseModules(t *testing.T) {
 	TwoMonthsAgo := now.Add(-8 * 7 * 24 * time.Hour)
 	OneYearAgo := now.Add(-366 * 24 * time.Hour)
 
-	validModule := &modutil.Module{Path: "valid/pkg", Version: "0.0.1", Time: &TwoMonthsAgo}
-	indirectModule := &modutil.Module{Path: "indirect/pkg", Indirect: true, Time: &TwoMonthsAgo}
-	updatedToModule := &modutil.Module{Path: "updated/pkg", Version: "1.0.0", Time: &now}
-	updatedModule := &modutil.Module{Path: "updated/pkg", Version: "0.0.1", Time: &OneYearAgo, Update: updatedToModule}
-	oldModule := &modutil.Module{Path: "old/pkg", Version: "0.0.1", Time: &OneYearAgo}
+	validModule := &Module{Path: "valid/pkg", Version: "0.0.1", Time: &TwoMonthsAgo}
+	indirectModule := &Module{Path: "indirect/pkg", Indirect: true, Time: &TwoMonthsAgo}
+	updatedToModule := &Module{Path: "updated/pkg", Version: "1.0.0", Time: &now}
+	updatedModule := &Module{Path: "updated/pkg", Version: "0.0.1", Time: &OneYearAgo, Update: updatedToModule}
+	oldModule := &Module{Path: "old/pkg", Version: "0.0.1", Time: &OneYearAgo}
 
 	testCases := []struct {
 		description string
 		flags       Flags
-		modules     []*modutil.Module
+		modules     []*Module
 		expected    Results
 	}{
 		{description: "no modules"},
@@ -100,14 +101,14 @@ func TestParseModules(t *testing.T) {
 			flags: Flags{
 				MaxWeeks: 26,
 			},
-			modules: []*modutil.Module{
+			modules: []*Module{
 				validModule,
 				indirectModule,
 				updatedModule,
 				oldModule,
 			},
 			expected: Results{
-				Unmaintained: []*modutil.Module{
+				Unmaintained: []*Module{
 					oldModule,
 				},
 			},
@@ -117,14 +118,14 @@ func TestParseModules(t *testing.T) {
 			flags: Flags{
 				MaxWeeks: 4,
 			},
-			modules: []*modutil.Module{
+			modules: []*Module{
 				validModule,
 				indirectModule,
 				updatedModule,
 				oldModule,
 			},
 			expected: Results{
-				Unmaintained: []*modutil.Module{
+				Unmaintained: []*Module{
 					validModule,
 					oldModule,
 				},
@@ -136,14 +137,14 @@ func TestParseModules(t *testing.T) {
 				MaxWeeks:    4,
 				IgnoredPkgs: []string{validModule.Path},
 			},
-			modules: []*modutil.Module{
+			modules: []*Module{
 				validModule,
 				indirectModule,
 				updatedModule,
 				oldModule,
 			},
 			expected: Results{
-				Unmaintained: []*modutil.Module{
+				Unmaintained: []*Module{
 					oldModule,
 				},
 			},
@@ -198,9 +199,15 @@ func TestRun(t *testing.T) {
 		t.Run(tc.description, func(t *testing.T) {
 			t.Parallel()
 
+			f, err := os.Open(filepath.Join("testdata", "go-list-output.txt"))
+			require.NoError(t, err, "os.Open() was expected to succeed")
+			t.Cleanup(func() {
+				require.NoError(t, f.Close())
+			})
+
 			buf := bytes.Buffer{}
 			w := bufio.NewWriter(&buf)
-			exitStatus := run(tc.args, w)
+			exitStatus := Run(tc.args, f, w)
 			require.NoError(t, w.Flush(), "Flush() should have work")
 			assert.Equal(t, tc.expectedCode, exitStatus)
 			if tc.expectedBuf != "" {

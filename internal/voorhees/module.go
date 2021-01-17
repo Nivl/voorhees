@@ -1,10 +1,10 @@
-// Package modutil contains various struct and functions to work on mod files
-package modutil
+package voorhees
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
-	"strings"
+	"io"
 	"time"
 )
 
@@ -43,27 +43,19 @@ type ModuleError struct {
 	Err string
 }
 
-// ParseCwd parses the mod file from the current working directory
-func ParseCwd() ([]*Module, error) {
-	// get an invalid JSON list of all modules
-	// The command returns one json encoded module per line
-	out, err := run("go", "list", "-m", "-u", "-json", "all")
-	if err != nil {
-		return nil, err
-	}
-	return ParseJSON(out)
-}
-
-// ParseJSON parses the JSON output of `go list` and returns a list of module
-func ParseJSON(golistOutput string) ([]*Module, error) {
-	// make list a valid JSON list
-	golistOutput = "[" + golistOutput + "]"
-	golistOutput = strings.ReplaceAll(golistOutput, "}\n{", "},\n{")
-
+// parseGoList parses the output of "go list -m -u -json all"
+func parseGoList(r io.Reader) ([]*Module, error) {
 	modules := []*Module{}
-	err := json.Unmarshal([]byte(golistOutput), &modules)
-	if err != nil {
-		return nil, fmt.Errorf("could not parse the JSON output of go list: %w", err)
+	d := json.NewDecoder(r)
+	for i := 1; ; i++ {
+		var m *Module
+		if err := d.Decode(&m); err != nil {
+			if errors.Is(err, io.EOF) {
+				break
+			}
+			return nil, fmt.Errorf("could not parse item %d of the provided go list: %w", i, err)
+		}
+		modules = append(modules, m)
 	}
 	return modules, nil
 }
