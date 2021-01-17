@@ -32,3 +32,14 @@ dockers:
       - "ghcr.io/nivl/voorhees:v{{ .Major }}"
       - "ghcr.io/nivl/voorhees:v{{ .Major }}.{{ .Minor }}"
       - "ghcr.io/nivl/voorhees:latest"
+
+brews:
+  - name: voorhees
+  - tap:
+      owner: Nivl
+      name: homebrew-tap
+    folder: Formula
+    homepage: https://melvin.la
+    description: Melvin's projects.
+    test: |
+      system "#{bin}/voorhees --version"
