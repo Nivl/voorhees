@@ -3,7 +3,7 @@ version: "2"
 tasks:
   build:
     cmds:
-      - CGO_ENABLED=0 go build -i -v -o ./bin/voorhees github.com/Nivl/voorhees
+      - CGO_ENABLED=0 go build -v -o ./bin/voorhees github.com/Nivl/voorhees
 
   install:
     cmds:

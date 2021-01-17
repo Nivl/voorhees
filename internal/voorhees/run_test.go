@@ -3,7 +3,6 @@ package voorhees
 import (
 	"bufio"
 	"bytes"
-	"errors"
 	"os"
 	"path/filepath"
 	"testing"
@@ -12,69 +11,6 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
-
-func TestParseFlags(t *testing.T) {
-	t.Parallel()
-
-	testCases := []struct {
-		description    string
-		argv           []string
-		expectedResult Flags
-		expectedError  error
-	}{
-		{
-			description: "default flags",
-			argv:        []string{"bin"},
-			expectedResult: Flags{
-				MaxWeeks:    26,
-				IgnoredPkgs: []string{},
-			},
-			expectedError: nil,
-		},
-		{
-			description: "set all",
-			argv: []string{
-				"bin",
-				"-l",
-				"4",
-				"-i",
-				"pkg1,pkg2",
-				"--ignore=pkg3,pkg4",
-			},
-			expectedResult: Flags{
-				MaxWeeks:    4,
-				IgnoredPkgs: []string{"pkg1", "pkg2", "pkg3", "pkg4"},
-			},
-			expectedError: nil,
-		},
-		{
-			description: "invalid flag",
-			argv: []string{
-				"bin",
-				"--nope",
-			},
-			expectedResult: Flags{},
-			expectedError:  errors.New("unknown flag: --nope"),
-		},
-	}
-
-	for _, tc := range testCases {
-		tc := tc
-		t.Run(tc.description, func(t *testing.T) {
-			t.Parallel()
-
-			flags, err := parseFlags(tc.argv)
-			if tc.expectedError != nil {
-				require.Error(t, err, "parseFlags should have failed")
-				require.Equal(t, tc.expectedError, err, "parseFlags failed with an unexpected error")
-				return
-			}
-
-			require.NoError(t, err, "parseFlags should have succeed")
-			assert.Equal(t, tc.expectedResult, *flags)
-		})
-	}
-}
 
 func TestParseModules(t *testing.T) {
 	t.Parallel()
@@ -170,26 +106,25 @@ func TestRun(t *testing.T) {
 
 	testCases := []struct {
 		description  string
-		args         []string
+		args         *Flags
 		expectedBuf  string
 		expectedCode int
 	}{
 		{
-			description:  "invalid flags",
-			args:         []string{"bin", "--nope"},
-			expectedCode: ExitFailure,
-			expectedBuf:  "could not parse the flags: unknown flag: --nope\n",
-		},
-		{
-			description:  "limit too low",
-			args:         []string{"bin", "-l", "2"},
+			description: "limit too low",
+			args: &Flags{
+				MaxWeeks: 2,
+			},
 			expectedCode: ExitFailure,
 			expectedBuf:  "the limit cannot be below 4\n",
 		},
 		{
 			description: "happy path",
 			// We're cheating a bit by ignoring all the packages
-			args:         []string{"bin", "-i", "github.com"},
+			args: &Flags{
+				MaxWeeks:    26,
+				IgnoredPkgs: []string{"github.com"},
+			},
 			expectedCode: ExitSuccess,
 		},
 	}
