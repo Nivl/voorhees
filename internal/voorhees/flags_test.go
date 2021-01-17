@@ -69,7 +69,7 @@ func TestParseFlags(t *testing.T) {
 			require.NoError(t, err, "ParseFlags should have succeed")
 			assert.NotNil(t, flags.Set)
 			// We're going to cheat a bit here because we don't care
-			// about this value (beside thqat it's not nil)
+			// about this value (beside that it's not nil)
 			tc.expectedResult.Set = flags.Set
 			assert.Equal(t, tc.expectedResult, *flags)
 		})
