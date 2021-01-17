@@ -17,6 +17,12 @@ func main() {
 		os.Exit(voorhees.ExitFailure)
 	}
 
+	if flags.PrintHelp {
+		fmt.Fprintln(os.Stdout, "Usage:")
+		fmt.Fprint(os.Stdout, flags.Set.FlagUsages())
+		os.Exit(voorhees.ExitSuccess)
+	}
+
 	if flags.PrintVersion {
 		fmt.Fprintln(os.Stdout, version)
 		os.Exit(voorhees.ExitSuccess)
