@@ -7,14 +7,18 @@ type Flags struct {
 	IgnoredPkgs  []string
 	MaxWeeks     int
 	PrintVersion bool
+	PrintHelp    bool
+
+	Set *flag.FlagSet
 }
 
 // ParseFlags parses the provided arguments (os.Args) and extracts the flags
 func ParseFlags(args []string) (*Flags, error) {
 	flags := &Flags{}
-	fset := flag.NewFlagSet(args[0], flag.ContinueOnError)
-	fset.StringSliceVarP(&flags.IgnoredPkgs, "ignore", "i", []string{}, "Coma separated list of packages to ignore")
-	fset.IntVarP(&flags.MaxWeeks, "limit", "l", 26, "Number of weeks after which a dep is considered unmaintained")
-	fset.BoolVarP(&flags.PrintVersion, "version", "v", false, "Print version")
-	return flags, fset.Parse(args)
+	flags.Set = flag.NewFlagSet(args[0], flag.ContinueOnError)
+	flags.Set.StringSliceVarP(&flags.IgnoredPkgs, "ignore", "i", []string{}, "Coma separated list of packages to ignore")
+	flags.Set.IntVarP(&flags.MaxWeeks, "limit", "l", 26, "Number of weeks after which a dep is considered unmaintained")
+	flags.Set.BoolVarP(&flags.PrintVersion, "version", "v", false, "Print version")
+	flags.Set.BoolVarP(&flags.PrintHelp, "help", "h", false, "Print help")
+	return flags, flags.Set.Parse(args)
 }
