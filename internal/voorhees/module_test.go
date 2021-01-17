@@ -1,4 +1,4 @@
-package voorhees_test
+package voorhees
 
 import (
 	"io"
@@ -6,11 +6,10 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/Nivl/voorhees/internal/voorhees"
 	"github.com/stretchr/testify/require"
 )
 
-func TestParseJSON(t *testing.T) {
+func TestParseGoList(t *testing.T) {
 	t.Parallel()
 
 	t.Run("valid json", func(t *testing.T) {
@@ -22,7 +21,7 @@ func TestParseJSON(t *testing.T) {
 			require.NoError(t, f.Close())
 		})
 
-		modules, err := voorhees.ParseGoList(f)
+		modules, err := parseGoList(f)
 		require.NoError(t, err, "ParseGoList() was expected to succeed")
 		require.Len(t, modules, 11)
 	})
@@ -40,7 +39,7 @@ func TestParseJSON(t *testing.T) {
 		_, err = f.Seek(1, io.SeekStart)
 		require.NoError(t, err, "Seek() was expected to succeed")
 
-		_, err = voorhees.ParseGoList(f)
-		require.Error(t, err, "ParseJSON() was expected to fail")
+		_, err = parseGoList(f)
+		require.Error(t, err, "ParseGoList() was expected to fail")
 	})
 }

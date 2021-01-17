@@ -27,7 +27,7 @@ func Run(args []string, in io.Reader, out io.Writer) (exitStatus int) {
 	week := 7 * 24 * time.Hour
 	expirationDate := time.Now().Add(-time.Duration(flags.MaxWeeks) * week)
 
-	modules, err := ParseGoList(os.Stdin)
+	modules, err := parseGoList(os.Stdin)
 	if err != nil {
 		fmt.Fprintf(out, "could not parse the go.mod file: %s\n", err.Error())
 		return ExitFailure

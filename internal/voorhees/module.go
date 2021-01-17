@@ -43,8 +43,8 @@ type ModuleError struct {
 	Err string
 }
 
-// ParseGoList parses the output of "go list -m -u -json all"
-func ParseGoList(r io.Reader) ([]*Module, error) {
+// parseGoList parses the output of "go list -m -u -json all"
+func parseGoList(r io.Reader) ([]*Module, error) {
 	modules := []*Module{}
 	d := json.NewDecoder(r)
 	for i := 1; ; i++ {
