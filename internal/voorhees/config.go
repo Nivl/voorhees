@@ -16,6 +16,9 @@ import (
 const (
 	week  = 7 * 24 * time.Hour
 	month = 30 * 24 * time.Hour
+
+	// DefaultConfigFilePath contains the default path to the config file
+	DefaultConfigFilePath = "./.voorhees.yml"
 )
 
 var (
@@ -144,7 +147,7 @@ func LoadConfigFile(path string) (cfg *Config, err error) {
 		// if the config file doesn't exist and the path points to the
 		// default path, then we assume the user doesn't use a config
 		// file
-		if errors.Is(err, os.ErrNotExist) && path == "./.voorhees.yml" {
+		if errors.Is(err, os.ErrNotExist) && path == DefaultConfigFilePath {
 			return newDefaultConfig(), nil
 		}
 		return nil, fmt.Errorf("could not open config file: %w", err)
