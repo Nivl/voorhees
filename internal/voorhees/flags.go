@@ -4,10 +4,11 @@ import flag "github.com/spf13/pflag"
 
 // Flags represents all the flags accepted by the CLI
 type Flags struct {
-	IgnoredPkgs  []string
-	MaxWeeks     int
-	PrintVersion bool
-	PrintHelp    bool
+	IgnoredPkgs    []string
+	MaxWeeks       int
+	PrintVersion   bool
+	PrintHelp      bool
+	ConfigFilePath string
 
 	Set *flag.FlagSet
 }
@@ -20,5 +21,6 @@ func ParseFlags(args []string) (*Flags, error) {
 	flags.Set.IntVarP(&flags.MaxWeeks, "limit", "l", 26, "Number of weeks after which a dep is considered unmaintained")
 	flags.Set.BoolVarP(&flags.PrintVersion, "version", "v", false, "Print version")
 	flags.Set.BoolVarP(&flags.PrintHelp, "help", "h", false, "Print help")
+	flags.Set.StringVarP(&flags.ConfigFilePath, "config-file", "c", "./voorhees.yml", "path to the config file")
 	return flags, flags.Set.Parse(args)
 }
