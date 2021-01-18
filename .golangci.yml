@@ -76,4 +76,3 @@ linters-settings:
       - sloppyReassign
       - emptyFallthrough
       - octalLiteral
-      - whyNoLint # this is buggy and always triggers

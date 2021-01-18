@@ -18,6 +18,21 @@ const (
 	month = 30 * 24 * time.Hour
 )
 
+var (
+	// ErrConfigVersion is an error returned when a config
+	// file has a version number that is not supported
+	ErrConfigVersion = errors.New("invalid config version number")
+	// ErrConfigInvalidRuleValue is an error returned when a config
+	// file has a rule containing an unsupported rule value
+	ErrConfigInvalidRuleValue = errors.New("unexpected rule value")
+	// ErrConfigInvalidNumber is an error returned when a config
+	// file has a rule containing an invalid number
+	ErrConfigInvalidNumber = errors.New("expected a number > 0")
+	// ErrConfigInvalidDurationType is an error returned when a config
+	// file has a rule containing an invalid duration type
+	ErrConfigInvalidDurationType = errors.New("unexpected duration type")
+)
+
 // ConfigFile represent the configuration file
 type ConfigFile struct {
 	Version int `yaml:"version"`
@@ -90,7 +105,7 @@ func NewConfig(r io.Reader) (*Config, error) {
 		}
 		return cfg, nil
 	default:
-		return nil, fmt.Errorf("unsupported config version: %d", cf.Version)
+		return nil, fmt.Errorf("version %d: %w", cf.Version, ErrConfigVersion)
 	}
 }
 
@@ -106,11 +121,11 @@ func newDefaultConfig() *Config {
 func parseConfigDuration(line string) (time.Duration, error) {
 	duration := strings.Split(line, " ")
 	if len(duration) != 2 {
-		return 0, fmt.Errorf("invalid rule value: %s", line)
+		return 0, ErrConfigInvalidRuleValue
 	}
 	n, err := strconv.Atoi(duration[0])
 	if err != nil || n <= 0 {
-		return 0, fmt.Errorf("expected a number > 0: %s", duration[0])
+		return 0, ErrConfigInvalidNumber
 	}
 	switch duration[1] {
 	case "week", "weeks":
@@ -118,13 +133,13 @@ func parseConfigDuration(line string) (time.Duration, error) {
 	case "month", "months":
 		return time.Duration(n) * month, nil
 	default:
-		return 0, fmt.Errorf("unexpected duration type: %s", duration[1])
+		return 0, ErrConfigInvalidDurationType
 	}
 }
 
 // LoadConfigFile load the configuration file located at the given path
 func LoadConfigFile(path string) (cfg *Config, err error) {
-	f, err := os.Open(path)
+	f, err := os.Open(path) //nolint:gosec // This is expected to be a user-provided file
 	if err != nil {
 		// if the config file doesn't exist and the path points to the
 		// default path, then we assume the user doesn't use a config
