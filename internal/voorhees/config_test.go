@@ -64,6 +64,11 @@ func TestNewConfig(t *testing.T) {
 				filePath:      filepath.Join("testdata", "config", "1", "invalid_value_duration_type.yml"),
 				expectedError: "unexpected duration type: days",
 			},
+			{
+				desc:          "should fail on invalid version",
+				filePath:      filepath.Join("testdata", "config", "invalid_version.yml"),
+				expectedError: "unsupported config version: 42",
+			},
 		}
 		for i, tc := range testCases {
 			tc := tc
