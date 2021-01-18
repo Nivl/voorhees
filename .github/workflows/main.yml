@@ -52,7 +52,7 @@ jobs:
           fail_ci_if_error: true
           verbose: true
 
-  validadte-goreleaser:
+  validate-goreleaser:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
