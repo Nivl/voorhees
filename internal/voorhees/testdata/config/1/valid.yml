@@ -1,0 +1,8 @@
+version: 1
+default:
+  limit: 6 months
+rules:
+  pkg.tld/weeks: 52 weeks
+  pkg.tld/months: 10 months
+  pkg.tld/skipped: skip
+  pkg.tld/ignored: ignore

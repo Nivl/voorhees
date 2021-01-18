@@ -11,22 +11,14 @@ import (
 // Run runs Voorhees
 // - in is expected to contain the output of go list (stdin most likely)
 // - out is expected to be were errors will be printed (stderr)
-func Run(flags *Flags, in io.Reader, out io.Writer) (exitStatus int) {
-	// Doesn't make sense to treat a dep unmaintained after a couple of weeks
-	if flags.MaxWeeks < 4 {
-		fmt.Fprintln(out, "the limit cannot be below 4")
-		return ExitFailure
-	}
-	week := 7 * 24 * time.Hour
-	expirationDate := time.Now().Add(-time.Duration(flags.MaxWeeks) * week)
-
+func Run(cfg *Config, in io.Reader, out io.Writer) (exitStatus int) {
 	modules, err := parseGoList(os.Stdin)
 	if err != nil {
 		fmt.Fprintf(out, "could not parse the go.mod file: %s\n", err.Error())
 		return ExitFailure
 	}
 
-	res := parseModules(flags, expirationDate, modules)
+	res := parseModules(cfg, modules)
 	res.print(out)
 
 	if res.HasModules() {
@@ -35,18 +27,10 @@ func Run(flags *Flags, in io.Reader, out io.Writer) (exitStatus int) {
 	return ExitSuccess
 }
 
-func parseModules(f *Flags, expirationDate time.Time, modules []*Module) *Results {
+func parseModules(cfg *Config, modules []*Module) *Results {
 	res := NewResults()
 	for _, m := range modules {
-		// skip ignored packages
-		isIgnored := false
-		for _, pkg := range f.IgnoredPkgs {
-			if strings.HasPrefix(m.Path, pkg) {
-				isIgnored = true
-				break
-			}
-		}
-		if isIgnored {
+		if cfg.IsIgnored(strings.ToLower(m.Path)) {
 			continue
 		}
 
@@ -57,6 +41,7 @@ func parseModules(f *Flags, expirationDate time.Time, modules []*Module) *Result
 
 		// Report if the package hasn't been updated since the last
 		// X weeks
+		expirationDate := time.Now().Add(-cfg.Duration(m.Path))
 		if m.Time != nil && m.Time.Before(expirationDate) {
 			if !m.HasUpdate() || m.Update.Time.Before(expirationDate) {
 				res.Unmaintained = append(res.Unmaintained, m)

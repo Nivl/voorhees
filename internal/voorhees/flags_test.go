@@ -22,8 +22,9 @@ func TestParseFlags(t *testing.T) {
 			description: "default flags",
 			argv:        []string{"bin"},
 			expectedResult: voorhees.Flags{
-				MaxWeeks:    26,
-				IgnoredPkgs: []string{},
+				MaxMonths:      26,
+				IgnoredPkgs:    []string{},
+				ConfigFilePath: "./voorhees.yml",
 			},
 			expectedError: nil,
 		},
@@ -38,8 +39,9 @@ func TestParseFlags(t *testing.T) {
 				"--ignore=pkg3,pkg4",
 			},
 			expectedResult: voorhees.Flags{
-				MaxWeeks:    4,
-				IgnoredPkgs: []string{"pkg1", "pkg2", "pkg3", "pkg4"},
+				MaxMonths:      4,
+				IgnoredPkgs:    []string{"pkg1", "pkg2", "pkg3", "pkg4"},
+				ConfigFilePath: "./voorhees.yml",
 			},
 			expectedError: nil,
 		},
