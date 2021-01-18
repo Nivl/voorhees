@@ -24,7 +24,7 @@ func TestParseFlags(t *testing.T) {
 			expectedResult: voorhees.Flags{
 				MaxMonths:      26,
 				IgnoredPkgs:    []string{},
-				ConfigFilePath: "./voorhees.yml",
+				ConfigFilePath: voorhees.DefaultConfigFilePath,
 			},
 			expectedError: nil,
 		},
@@ -41,7 +41,7 @@ func TestParseFlags(t *testing.T) {
 			expectedResult: voorhees.Flags{
 				MaxMonths:      4,
 				IgnoredPkgs:    []string{"pkg1", "pkg2", "pkg3", "pkg4"},
-				ConfigFilePath: "./voorhees.yml",
+				ConfigFilePath: voorhees.DefaultConfigFilePath,
 			},
 			expectedError: nil,
 		},

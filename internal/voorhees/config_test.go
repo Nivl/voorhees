@@ -110,7 +110,7 @@ func TestLoadConfigFile(t *testing.T) {
 	t.Run("should success if the default file is missing", func(t *testing.T) {
 		t.Parallel()
 
-		cfg, err := voorhees.LoadConfigFile("./.voorhees.yml")
+		cfg, err := voorhees.LoadConfigFile(voorhees.DefaultConfigFilePath)
 		require.NoError(t, err)
 		assert.False(t, cfg.IsIgnored("pkg.tld/skipped"), "package should not be ignored")
 	})
