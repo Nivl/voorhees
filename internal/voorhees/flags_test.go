@@ -22,7 +22,7 @@ func TestParseFlags(t *testing.T) {
 			description: "default flags",
 			argv:        []string{"bin"},
 			expectedResult: voorhees.Flags{
-				MaxMonths:      26,
+				MaxMonths:      6,
 				IgnoredPkgs:    []string{},
 				ConfigFilePath: voorhees.DefaultConfigFilePath,
 			},
