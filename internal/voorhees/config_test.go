@@ -42,32 +42,33 @@ func TestNewConfig(t *testing.T) {
 		testCases := []struct {
 			desc          string
 			filePath      string
-			expectedError string
+			expectedError error
+			ErrorMatch    string
 		}{
 			{
-				desc:          "should fail on invalid keys",
-				filePath:      filepath.Join("testdata", "config", "1", "invalid_keys.yml"),
-				expectedError: "doesNotExists not found",
+				desc:       "should fail on invalid keys",
+				filePath:   filepath.Join("testdata", "config", "1", "invalid_keys.yml"),
+				ErrorMatch: "doesNotExists not found",
 			},
 			{
 				desc:          "should fail on unknown values",
 				filePath:      filepath.Join("testdata", "config", "1", "invalid_value.yml"),
-				expectedError: "invalid rule value: unknownValue",
+				expectedError: voorhees.ErrConfigInvalidRuleValue,
 			},
 			{
 				desc:          "should fail on invalid duration number",
 				filePath:      filepath.Join("testdata", "config", "1", "invalid_value_duration_number.yml"),
-				expectedError: "expected a number > 0",
+				expectedError: voorhees.ErrConfigInvalidNumber,
 			},
 			{
 				desc:          "should fail on invalid duration type",
 				filePath:      filepath.Join("testdata", "config", "1", "invalid_value_duration_type.yml"),
-				expectedError: "unexpected duration type: days",
+				expectedError: voorhees.ErrConfigInvalidDurationType,
 			},
 			{
 				desc:          "should fail on invalid version",
 				filePath:      filepath.Join("testdata", "config", "invalid_version.yml"),
-				expectedError: "unsupported config version: 42",
+				expectedError: voorhees.ErrConfigVersion,
 			},
 		}
 		for i, tc := range testCases {
@@ -83,7 +84,12 @@ func TestNewConfig(t *testing.T) {
 				})
 				_, err = voorhees.NewConfig(f)
 				require.Error(t, err)
-				assert.Contains(t, err.Error(), tc.expectedError)
+				if tc.expectedError != nil {
+					assert.ErrorIs(t, err, tc.expectedError)
+				}
+				if tc.ErrorMatch != "" {
+					assert.Contains(t, err.Error(), tc.ErrorMatch)
+				}
 			})
 		}
 	})
