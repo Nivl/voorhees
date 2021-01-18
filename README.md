@@ -69,6 +69,8 @@ rules:
 ```
 
 - `version`: version of the config file (default is and always will be 1 for the current major version of Voorhees).
+- `default`:
+  - `limit`: Will only report the packages if it hasn't been updated in the last _N_ weeks or month.
 - `rules`: contains a list of key/values. The keys represents the packages, the value, the rule you want to apply. The value can have any of the following format:
   - `ignore`: Ignore the package.
   - `skip`: Alias for `ignore`.
