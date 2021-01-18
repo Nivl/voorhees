@@ -24,7 +24,7 @@ go list -json -m -u all | voorhees [flags]
 | --config, -c  | Path to the optional config file (default: ./.voorhees.yml)               |
 | --help, -h    | Display the help options                                                  |
 | --ignore, -i  | Coma separated list of packages to ignore                                 |
-| --limit -l    | Number of weeks after which a dep is considered unmaintained (default 26) |
+| --limit -l    | Number of months after which a dep is considered unmaintained (default 6) |
 | --version, -v | Display the version number                                                |
 ```
 

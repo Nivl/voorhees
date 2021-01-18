@@ -27,16 +27,14 @@ func TestParseModules(t *testing.T) {
 
 	testCases := []struct {
 		description string
-		flags       Flags
+		cfg         *Config
 		modules     []*Module
 		expected    Results
 	}{
 		{description: "no modules"},
 		{
 			description: "No updates in the last 6 months",
-			flags: Flags{
-				MaxWeeks: 26,
-			},
+			cfg:         newDefaultConfig(),
 			modules: []*Module{
 				validModule,
 				indirectModule,
@@ -51,8 +49,10 @@ func TestParseModules(t *testing.T) {
 		},
 		{
 			description: "No updates in the last month",
-			flags: Flags{
-				MaxWeeks: 4,
+			cfg: &Config{
+				defaultLimit: 4 * month,
+				limits:       map[string]time.Duration{},
+				toSkip:       map[string]struct{}{},
 			},
 			modules: []*Module{
 				validModule,
@@ -69,9 +69,12 @@ func TestParseModules(t *testing.T) {
 		},
 		{
 			description: "No updates in the last month with ignore package",
-			flags: Flags{
-				MaxWeeks:    4,
-				IgnoredPkgs: []string{validModule.Path},
+			cfg: &Config{
+				defaultLimit: 4 * month,
+				limits:       map[string]time.Duration{},
+				toSkip: map[string]struct{}{
+					validModule.Path: {},
+				},
 			},
 			modules: []*Module{
 				validModule,
@@ -92,10 +95,7 @@ func TestParseModules(t *testing.T) {
 		t.Run(tc.description, func(t *testing.T) {
 			t.Parallel()
 
-			week := 7 * 24 * time.Hour
-			expirationDate := time.Now().Add(-time.Duration(tc.flags.MaxWeeks) * week)
-
-			res := parseModules(&tc.flags, expirationDate, tc.modules)
+			res := parseModules(tc.cfg, tc.modules)
 			assert.Equal(t, tc.expected.Unmaintained, res.Unmaintained)
 		})
 	}
@@ -106,24 +106,22 @@ func TestRun(t *testing.T) {
 
 	testCases := []struct {
 		description  string
-		args         *Flags
+		cfg          *Config
 		expectedBuf  string
 		expectedCode int
 	}{
 		{
-			description: "limit too low",
-			args: &Flags{
-				MaxWeeks: 2,
-			},
-			expectedCode: ExitFailure,
-			expectedBuf:  "the limit cannot be below 4\n",
-		},
-		{
 			description: "happy path",
 			// We're cheating a bit by ignoring all the packages
-			args: &Flags{
-				MaxWeeks:    26,
-				IgnoredPkgs: []string{"github.com"},
+			cfg: &Config{
+				defaultLimit: 6 * month,
+				limits:       map[string]time.Duration{},
+				toSkip: map[string]struct{}{
+					"github.com/olekukonko/tablewriter": {},
+					"github.com/pkg/errors":             {},
+					"github.com/spf13/pflag":            {},
+					"github.com/stretchr/testify":       {},
+				},
 			},
 			expectedCode: ExitSuccess,
 		},
@@ -142,7 +140,7 @@ func TestRun(t *testing.T) {
 
 			buf := bytes.Buffer{}
 			w := bufio.NewWriter(&buf)
-			exitStatus := Run(tc.args, f, w)
+			exitStatus := Run(tc.cfg, f, w)
 			require.NoError(t, w.Flush(), "Flush() should have work")
 			assert.Equal(t, tc.expectedCode, exitStatus)
 			if tc.expectedBuf != "" {

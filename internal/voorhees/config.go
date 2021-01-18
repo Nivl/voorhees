@@ -152,3 +152,16 @@ func LoadConfigFile(path string) (cfg *Config, err error) {
 	defer errutil.Close(f, &err)
 	return NewConfig(f)
 }
+
+// LoadConfigFromFlags load the configuration file located at the given path
+func LoadConfigFromFlags(flags *Flags) (*Config, error) {
+	cfg, err := LoadConfigFile(flags.ConfigFilePath)
+	if err != nil {
+		return nil, fmt.Errorf("could not load config file: %w", err)
+	}
+	for _, pkg := range flags.IgnoredPkgs {
+		cfg.toSkip[strings.ToLower(pkg)] = struct{}{}
+	}
+	cfg.defaultLimit = time.Duration(flags.MaxMonths) * month
+	return cfg, nil
+}

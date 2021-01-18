@@ -28,5 +28,11 @@ func main() {
 		os.Exit(voorhees.ExitSuccess)
 	}
 
-	os.Exit(voorhees.Run(flags, os.Stdin, os.Stderr))
+	cfg, err := voorhees.LoadConfigFromFlags(flags)
+	if err != nil {
+		fmt.Fprintln(os.Stderr, err.Error())
+		os.Exit(voorhees.ExitFailure)
+	}
+
+	os.Exit(voorhees.Run(cfg, os.Stdin, os.Stderr))
 }
