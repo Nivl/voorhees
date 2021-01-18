@@ -50,7 +50,7 @@ func TestParseModules(t *testing.T) {
 		{
 			description: "No updates in the last month",
 			cfg: &Config{
-				defaultLimit: 4 * month,
+				defaultLimit: 1 * month,
 				limits:       map[string]time.Duration{},
 				toSkip:       map[string]struct{}{},
 			},
@@ -70,7 +70,7 @@ func TestParseModules(t *testing.T) {
 		{
 			description: "No updates in the last month with ignore package",
 			cfg: &Config{
-				defaultLimit: 4 * month,
+				defaultLimit: 1 * month,
 				limits:       map[string]time.Duration{},
 				toSkip: map[string]struct{}{
 					validModule.Path: {},
