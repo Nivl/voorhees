@@ -1,12 +1,15 @@
 package voorhees
 
 import (
+	"errors"
 	"fmt"
 	"io"
+	"os"
 	"strconv"
 	"strings"
 	"time"
 
+	"github.com/Nivl/voorhees/internal/errutil"
 	"gopkg.in/yaml.v2"
 )
 
@@ -57,12 +60,7 @@ func NewConfig(r io.Reader) (*Config, error) {
 		return nil, fmt.Errorf("could not parse config: %w", err)
 	}
 
-	cfg := &Config{
-		toSkip:       map[string]struct{}{},
-		limits:       map[string]time.Duration{},
-		defaultLimit: 6 * month,
-	}
-
+	cfg := newDefaultConfig()
 	switch cf.Version {
 	case 1:
 		if cf.Default.Limit != "" {
@@ -96,6 +94,15 @@ func NewConfig(r io.Reader) (*Config, error) {
 	}
 }
 
+func newDefaultConfig() *Config {
+	return &Config{
+		toSkip:       map[string]struct{}{},
+		limits:       map[string]time.Duration{},
+		defaultLimit: 6 * month,
+	}
+}
+
+// parseConfigDuration parses a duration such as: 6 weeks
 func parseConfigDuration(line string) (time.Duration, error) {
 	duration := strings.Split(line, " ")
 	if len(duration) != 2 {
@@ -115,6 +122,18 @@ func parseConfigDuration(line string) (time.Duration, error) {
 	}
 }
 
-func LoadConfigFile(path string) (*Config, error) {
-	return nil, nil
+// LoadConfigFile load the configuration file located at the given path
+func LoadConfigFile(path string) (cfg *Config, err error) {
+	f, err := os.Open(path)
+	if err != nil {
+		// if the config file doesn't exist and the path points to the
+		// default path, then we assume the user doesn't use a config
+		// file
+		if errors.Is(err, os.ErrNotExist) && path == "./.voorhees.yml" {
+			return newDefaultConfig(), nil
+		}
+		return nil, fmt.Errorf("could not open config file: %w", err)
+	}
+	defer errutil.Close(f, &err)
+	return NewConfig(f)
 }

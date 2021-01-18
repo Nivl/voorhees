@@ -88,3 +88,32 @@ func TestNewConfig(t *testing.T) {
 		}
 	})
 }
+
+func TestLoadConfigFile(t *testing.T) {
+	t.Parallel()
+
+	t.Run("happy path", func(t *testing.T) {
+		t.Parallel()
+
+		p := filepath.Join("testdata", "config", "1", "valid.yml")
+		cfg, err := voorhees.LoadConfigFile(p)
+		require.NoError(t, err)
+		assert.True(t, cfg.IsIgnored("pkg.tld/skipped"), "package should be ignored")
+	})
+
+	t.Run("should success if the default file is missing", func(t *testing.T) {
+		t.Parallel()
+
+		cfg, err := voorhees.LoadConfigFile("./.voorhees.yml")
+		require.NoError(t, err)
+		assert.False(t, cfg.IsIgnored("pkg.tld/skipped"), "package should not be ignored")
+	})
+
+	t.Run("should fail if the file is missing", func(t *testing.T) {
+		t.Parallel()
+
+		_, err := voorhees.LoadConfigFile(".doesntexist.yml")
+		require.Error(t, err)
+		assert.ErrorIs(t, err, os.ErrNotExist, "unexpected error received")
+	})
+}
