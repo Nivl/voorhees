@@ -1,4 +1,4 @@
-name: Code Quality
+name: QA
 on: [push]
 jobs:
   lint:
@@ -45,9 +45,14 @@ jobs:
       - uses: actions/setup-go@v2
 
       - name: Test
-        run: go test -race ./...
+        run: go test -race -coverprofile coverage.txt ./...
 
-  release-safe:
+      - uses: codecov/codecov-action@v1
+        with:
+          fail_ci_if_error: true
+          verbose: true
+
+  validadte-goreleaser:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
