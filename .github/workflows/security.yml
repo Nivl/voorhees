@@ -33,5 +33,5 @@ jobs:
       - uses: actions/setup-go@v2
       - name: Generate go.list
         run: go list -json -m all > go.list
-      - name: Run Nancy
+      - name: Run Voorhees
         uses: Nivl/voorhees-github-action@ml/initial
