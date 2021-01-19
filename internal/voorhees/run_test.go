@@ -119,7 +119,7 @@ func TestRun(t *testing.T) {
 				toSkip: map[string]struct{}{
 					"github.com/olekukonko/tablewriter": {},
 					"github.com/pkg/errors":             {},
-					"github.com/spf13/pflag":            {},
+					"github.com/cornfeedhobo/pflag":     {},
 					"github.com/stretchr/testify":       {},
 				},
 			},
