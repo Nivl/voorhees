@@ -24,3 +24,14 @@ jobs:
           args: check
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  unmaintained-deps-check:
+    name: "Unmaintained deps check"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-go@v2
+      - name: Generate go.list
+        run: go list -json -m all > go.list
+      - name: Run Nancy
+        uses: Nivl/voorhees-github-action@ml/initial

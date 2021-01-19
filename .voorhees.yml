@@ -1,0 +1,7 @@
+version: 1
+default:
+  limit: 6 months
+# rules:
+#   github.com/olekukonko/tablewriter: 52 weeks
+#   github.com/pkg/errors: 10 months
+#   github.com/spf13/pflag: skip
