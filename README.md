@@ -30,6 +30,24 @@ go list -json -m -u all | voorhees [flags]
 
 ## Installation
 
+### Github Action
+
+See [voorhees-github-action](https://github.com/Nivl/voorhees-github-action).
+
+```
+voorhees:
+  runs-on: ubuntu-latest
+  steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-go@v2
+
+    - name: Generate go.list
+      run: go list -json -m all > go.list
+
+    - name: Run Voorhees
+      uses: Nivl/voorhees-github-action@v1
+```
+
 ### macOS
 
 ```
@@ -51,6 +69,7 @@ go list -json -m all | docker run --rm -i ghcr.io/nivl/voorhees:latest
 ```
 go get -u github.com/Nivl/voorhees
 ```
+
 
 ## Configration
 
