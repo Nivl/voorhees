@@ -1,6 +1,6 @@
 package voorhees
 
-import flag "github.com/spf13/pflag"
+import flag "github.com/cornfeedhobo/pflag"
 
 // Flags represents all the flags accepted by the CLI
 type Flags struct {
