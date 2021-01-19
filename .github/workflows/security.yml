@@ -34,4 +34,4 @@ jobs:
       - name: Generate go.list
         run: go list -json -m all > go.list
       - name: Run Voorhees
-        uses: Nivl/voorhees-github-action@ml/initial
+        uses: Nivl/voorhees-github-action@ml/fix-deps
