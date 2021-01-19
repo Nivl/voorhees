@@ -4,7 +4,7 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/Nivl/voorhees/internal/voorhees/errutil"
+	"github.com/Nivl/voorhees/internal/errutil"
 	"github.com/stretchr/testify/assert"
 )
 

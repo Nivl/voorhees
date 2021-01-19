@@ -9,7 +9,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/Nivl/voorhees/internal/voorhees/errutil"
+	"github.com/Nivl/voorhees/internal/errutil"
 	"gopkg.in/yaml.v2"
 )
 
