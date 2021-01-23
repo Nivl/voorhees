@@ -1,6 +1,6 @@
 # Voorhees
 
-Voorhees is a program that parses the depency tree to find dependencies that
+Voorhees is a program that parses a Go dependency tree to find dependencies that
 might no longer be maintained.
 
 ```
@@ -70,7 +70,6 @@ go list -json -m all | docker run --rm -i ghcr.io/nivl/voorhees:latest
 go get -u github.com/Nivl/voorhees
 ```
 
-
 ## Configration
 
 You can configure each package separatetly using `.voorhees.yml`.
@@ -95,5 +94,5 @@ rules:
   - `skip`: Alias for `ignore`.
   - `N weeks`: Will only report the package if it hasn't been updated in _N_ weeks.
   - `N week`: Alias for `N weeks`
-  - `N month`: Will only report the package if it hasn't been updated in _N_ months.
-  - `N months`: Alias for `N months`.
+  - `N months`: Will only report the package if it hasn't been updated in _N_ months.
+  - `N month`: Alias for `N months`.
