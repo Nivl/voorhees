@@ -18,7 +18,7 @@ func ParseFlags(args []string) (*Flags, error) {
 	flags := &Flags{}
 	flags.Set = flag.NewFlagSet(args[0], flag.ContinueOnError)
 	flags.Set.StringSliceVarP(&flags.IgnoredPkgs, "ignore", "i", []string{}, "Coma separated list of packages to ignore")
-	flags.Set.IntVarP(&flags.MaxMonths, "limit", "l", 6, "Number of months after which a dep is considered unmaintained")
+	flags.Set.IntVarP(&flags.MaxMonths, "limit", "l", 0, "Number of months after which a dep is considered unmaintained. Overwrites the default limit of the config files")
 	flags.Set.BoolVarP(&flags.PrintVersion, "version", "v", false, "Print version")
 	flags.Set.BoolVarP(&flags.PrintHelp, "help", "h", false, "Print help")
 	flags.Set.StringVarP(&flags.ConfigFilePath, "config-file", "c", DefaultConfigFilePath, "path to the config file")
