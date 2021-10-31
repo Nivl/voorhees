@@ -1,6 +1,3 @@
 version: 1
 default:
-  limit: 6 months
-rules:
-  # No release since Dec 2019 but still has some activity on Master
-  github.com/olekukonko/tablewriter: 18 months
+  limit: 12 months

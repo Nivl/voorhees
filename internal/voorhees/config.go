@@ -165,6 +165,8 @@ func LoadConfigFromFlags(flags *Flags) (*Config, error) {
 	for _, pkg := range flags.IgnoredPkgs {
 		cfg.toSkip[strings.ToLower(pkg)] = struct{}{}
 	}
-	cfg.defaultLimit = time.Duration(flags.MaxMonths) * month
+	if flags.MaxMonths != 0 {
+		cfg.defaultLimit = time.Duration(flags.MaxMonths) * month
+	}
 	return cfg, nil
 }
