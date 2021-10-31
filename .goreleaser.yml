@@ -34,8 +34,9 @@ dockers:
       - "ghcr.io/nivl/voorhees:latest"
 
 brews:
-  - name: voorhees
-  - tap:
+  -
+    name: voorhees
+    tap:
       owner: Nivl
       name: homebrew-tap
     folder: Formula
