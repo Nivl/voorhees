@@ -18,7 +18,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+
+      - name: Get Go version
+        id: gover
+        run: echo "::set-output name=value::^$(grep 'go 1.' go.mod | cut -d ' ' -f 2)"
       - uses: actions/setup-go@v2
+        with:
+          go-version: ${{ steps.gover.outputs.value }}
 
       - name: Run GoReleaser
         uses: goreleaser/goreleaser-action@v2
@@ -33,7 +39,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+
+      - name: Get Go version
+        id: gover
+        run: echo "::set-output name=value::^$(grep 'go 1.' go.mod | cut -d ' ' -f 2)"
       - uses: actions/setup-go@v2
+        with:
+          go-version: ${{ steps.gover.outputs.value }}
 
       - name: Build
         run: go build
